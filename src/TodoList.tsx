@@ -23,17 +23,23 @@ import { useForm } from "react-hook-form";
 
 
 function TodoList(){
-    const {register,watch} = useForm();
-    console.log(watch())
+    const {register,watch,handleSubmit,formState} = useForm();
+    const onValid = (data:any) => {
+        console.log(data)
+    }
+    console.log(formState.errors)
     return (
         <div>
-            <form>
-                <input {...register("email")} type="text" placeholder="Email"/><br/>
-                <input {...register("firstName")} type="text" placeholder="First Name"/><br/>
-                <input {...register("listname")} type="text" placeholder="List name"/><br/>
-                <input {...register("userName")} type="text" placeholder="UserName"/><br/>
-                <input {...register("passWord")} type="text" placeholder="PassWord"/><br/>
-                <input {...register("passWord1")} type="text" placeholder="PassWord1"/>
+            <form style={{display:"flex",flexDirection:"column"}} onSubmit={handleSubmit(onValid)}>
+                <input {...register("email",{required:true})} type="text" placeholder="Email"/>
+                <input {...register("firstName",{required:true})} type="text" placeholder="First Name"/>
+                <input {...register("listname",{required:true})} type="text" placeholder="List name"/>
+                <input {...register("userName",{required:true,minLength:10})} type="text" placeholder="UserName"/>
+                <input {...register("passWord",{required:true,minLength:5})} type="text" placeholder="PassWord"/>
+                <input {...register("passWord1",{required:"Password is required",minLength:{
+                    value:5,
+                    message:"Your passowrd is too shoot"
+                }})} type="text" placeholder="PassWord1"/>
                 <button>Add</button>
             </form>
         </div>
