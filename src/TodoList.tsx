@@ -28,16 +28,20 @@ interface IFormData {
     userName:string,
     passWord:string,
     passWord1:string
+    extraError?:string
 }
 
 function TodoList(){
-    const {register,watch,handleSubmit,formState:{errors}} = useForm<IFormData>({
+    const {register,watch,handleSubmit,formState:{errors},setError} = useForm<IFormData>({
         defaultValues:{
             email:"@naver.com"
         }
     });
-    const onValid = (data:any) => {
-        console.log(data)
+    const onValid = (data:IFormData) => {
+        if(data.passWord !== data.passWord1){
+            setError("passWord1",{message:"PassWord are not the same"},{shouldFocus:true})
+        }
+        // setError("extraError",{message:"Server Offline"})
     }
     return (
         <div>
@@ -51,7 +55,12 @@ function TodoList(){
                  type="text" placeholder="Email"/>
                 <span>{errors?.email?.message?.toString()}</span>
 
-                <input {...register("firstName",{required:"write here"})} type="text" placeholder="First Name"/>
+                <input {...register("firstName",{required:"write here",
+                validate:{
+                    noNico:(value)=>value.includes("nico") ? "no nico":true,
+                    noNick:(value)=>value.includes("nick") ? "no nick":true
+
+                }})} type="text" placeholder="First Name"/>
                 <span>{errors?.firstName?.message?.toString()}</span>
 
                 <input {...register("listname",{required:"write here"})} type="text" placeholder="List name"/>
@@ -74,6 +83,7 @@ function TodoList(){
 
 
                 <button>Add</button>
+                <span>{errors?.extraError?.message?.toString()}</span>
             </form>
         </div>
     )
