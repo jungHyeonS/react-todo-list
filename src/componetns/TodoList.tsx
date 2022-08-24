@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { atom, useRecoilState, useRecoilStoreID, useRecoilValue, useSetRecoilState } from "recoil";
-import { toDostate } from "../atom";
+import { categoryState, toDoSelector, toDostate } from "../atom";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./Todo";
 
@@ -19,23 +19,27 @@ function TodoList(){
     // const modFn = useSetRecoilState(toDostate);
 
     // 구조 분해 할당으로 할경우
-    const toDos = useRecoilValue(toDostate)
-
-    
-    console.log(toDos)
+    // const toDos = useRecoilValue(toDostate)
+    const toDos = useRecoilValue(toDoSelector)
+    const [category,setCategory] = useRecoilState(categoryState)
+    const onInput = (event:React.FormEvent<HTMLSelectElement>) => {
+        setCategory(event.currentTarget.value)
+    }
     return (
         <div>
             <h1>to dos</h1>
             <hr/>
+            <form>
+                <select value={category} onInput={onInput}>
+                    <option value="TO_DO">To Do</option>
+                    <option value="DOING">Doing</option>
+                    <option value="DONE">Done</option>
+                </select>
+            </form>
             <CreateToDo/>
-            <ul>
-                {/* {toDos.map(toDo => <ToDo text={toDo.text} category={toDo.category} id={toDo.id}/>)} */}
-
-
-                {/* 인터페이스에 있는 모든값을 보낼때는 spared 문법도 가능하다 */}
-                {toDos.map(toDo => <ToDo {...toDo} key={toDo.id}/>)}
-
-            </ul>
+            {toDos.map((toDo) => (
+                    <ToDo key={toDo.id} {...toDo}/>
+                )) }
         </div>
     );
 }
