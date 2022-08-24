@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { atom, useRecoilState, useRecoilStoreID, useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState, toDoSelector, toDostate } from "../atom";
+import { Categoris, categoryState, toDoSelector, toDostate } from "../atom";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./Todo";
 
@@ -23,7 +23,7 @@ function TodoList(){
     const toDos = useRecoilValue(toDoSelector)
     const [category,setCategory] = useRecoilState(categoryState)
     const onInput = (event:React.FormEvent<HTMLSelectElement>) => {
-        setCategory(event.currentTarget.value)
+        setCategory(event.currentTarget.value as any)
     }
     return (
         <div>
@@ -31,9 +31,9 @@ function TodoList(){
             <hr/>
             <form>
                 <select value={category} onInput={onInput}>
-                    <option value="TO_DO">To Do</option>
-                    <option value="DOING">Doing</option>
-                    <option value="DONE">Done</option>
+                    <option value={Categoris.TO_DO}>To Do</option>
+                    <option value={Categoris.DOING}>Doing</option>
+                    <option value={Categoris.DONE}>Done</option>
                 </select>
             </form>
             <CreateToDo/>

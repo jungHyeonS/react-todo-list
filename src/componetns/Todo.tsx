@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { IToDo, toDostate } from "../atom";
+import { Categoris, IToDo, toDostate } from "../atom";
 
 function ToDo({text,category,id}:IToDo){
     const setToDos = useSetRecoilState(toDostate);
@@ -17,9 +17,9 @@ function ToDo({text,category,id}:IToDo){
 
     return <li>{text}
     {/* 인자가 있는 Onclick 이벤트 */}
-    {category !== "DOING" && <button onClick={() => onClick("DOING")}>Doing</button>}
-    {category !== "TO_DO" && <button onClick={() => onClick("TO_DO")}>TO Do</button>}
-    {category !== "DONE" && <button onClick={() => onClick("DONE")}>Done</button>}
+    {category !== Categoris.DOING && <button onClick={() => onClick(Categoris.DOING)}>Doing</button>}
+    {category !== Categoris.TO_DO && <button onClick={() => onClick(Categoris.TO_DO)}>TO Do</button>}
+    {category !== Categoris.DONE && <button onClick={() => onClick(Categoris.DONE)}>Done</button>}
     
     </li>;
 }
