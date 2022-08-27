@@ -1,4 +1,5 @@
 import {atom,selector} from "recoil"
+import { localStorageEffect } from "./localStorage";
 
 export enum Categoris {
     "TO_DO",
@@ -16,7 +17,8 @@ export interface IToDo {
 
 export const toDostate = atom<IToDo[]>({
     key:"toDo",
-    default : []
+    default : [],
+    effects : [localStorageEffect("toDoList")]
 })
 
 export const categoryState = atom<Categoris>({
