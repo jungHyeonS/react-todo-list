@@ -16,8 +16,7 @@ function CreateToDo(){
     } = useForm<IForm>()
 
     const onSubmit = ({toDo}:IForm) =>{{
-        console.log("add to do",toDo)
-        setToDos(oldTodos => [{text:toDo,category:category,id:Date.now()},...oldTodos])
+        setToDos(oldTodos => [{text:toDo,category:Number(category),id:Date.now()},...oldTodos])
         setValue("toDo","")
     }}
 
